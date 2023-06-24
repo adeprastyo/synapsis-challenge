@@ -1,9 +1,13 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <div className="navbar bg-sky-600 text-white p-7 shadow-md">
       <div className="container mx-auto flex justify-between">
         <div>
-          <a className="btn btn-ghost normal-case text-2xl">Home</a>
+          <Link href="/" className="btn btn-ghost normal-case text-2xl">
+            Home
+          </Link>
         </div>
 
         <div className="flex gap-10">
@@ -15,7 +19,9 @@ export default function Navbar() {
             />
           </div>
           <div className="flex-none ">
-            <a className="btn btn-ghost normal-case text-lg">User</a>
+            <Link href="/users" className="btn btn-ghost normal-case text-lg">
+              User
+            </Link>
           </div>
         </div>
       </div>

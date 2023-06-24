@@ -1,54 +1,42 @@
 "use client";
-import Card from "@/components/Card";
 import Navbar from "@/components/Navbar";
+import Table from "@/components/Table";
 import { useEffect, useState } from "react";
 
-export default function Home() {
-  const [posts, setPosts] = useState(undefined);
+export default function Users() {
+  const [users, setUsers] = useState(undefined);
 
   useEffect(() => {
-    fetch("https://gorest.co.in/public/v2/posts", {
+    fetch("https://gorest.co.in/public/v2/users", {
       method: "GET",
       redirect: "follow",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setPosts(data);
+        setUsers(data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
   }, []);
 
-  if (posts === undefined) {
+  if (users === undefined) {
     return (
       <div className="h-screen text-xl flex justify-center items-center">
         Loading...
       </div>
     );
   }
-
   return (
     <>
       <Navbar />
 
       <div className="container mx-auto py-10 px-5">
         <div className="text-lg font-semibold border-b-2 pb-3">
-          <p>POSTS</p>
+          <p>USERS</p>
         </div>
 
-        {posts.map((post) => {
-          return (
-            <div key={post.id} className="w-full mb-4">
-              <Card
-                user_id={post.user_id}
-                title={post.title}
-                body={post.body}
-              />
-            </div>
-          );
-        })}
+        <Table users={users} />
       </div>
     </>
   );
