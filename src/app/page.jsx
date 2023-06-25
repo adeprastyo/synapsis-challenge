@@ -1,6 +1,7 @@
 "use client";
 import Card from "@/components/Card";
 import Navbar from "@/components/Navbar";
+import Title from "@/components/Title";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -31,25 +32,18 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
-
-      <div className="container mx-auto py-10 px-5">
-        <div className="text-lg font-semibold border-b-2 pb-3">
-          <p>POSTS</p>
-        </div>
-
+      <Title title="POSTS">
         {posts.map((post) => {
           return (
-            <div key={post.id} className="w-full mb-4">
-              <Card
-                user_id={post.user_id}
-                title={post.title}
-                body={post.body}
-              />
-            </div>
+            <Card
+              key={post.id}
+              user_id={post.user_id}
+              title={post.title}
+              body={post.body}
+            />
           );
         })}
-      </div>
+      </Title>
     </>
   );
 }

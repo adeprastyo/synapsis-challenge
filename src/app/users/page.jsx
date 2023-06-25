@@ -1,6 +1,7 @@
 "use client";
-import Navbar from "@/components/Navbar";
+
 import Table from "@/components/Table";
+import Title from "@/components/Title";
 import { useEffect, useState } from "react";
 
 export default function Users() {
@@ -29,15 +30,9 @@ export default function Users() {
   }
   return (
     <>
-      <Navbar />
-
-      <div className="container mx-auto py-10 px-5">
-        <div className="text-lg font-semibold border-b-2 pb-3">
-          <p>USERS</p>
-        </div>
-
+      <Title title="USERS">
         <Table users={users} />
-      </div>
+      </Title>
     </>
   );
 }
