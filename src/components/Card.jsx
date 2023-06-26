@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 
-export default function Card({ user_id, title, body }) {
-  useEffect(() => {
-    fetch("");
-  }, []);
-
+export default function Card({ name, title, body }) {
   return (
     <>
       <div className="w-full mb-4">
@@ -18,7 +14,7 @@ export default function Card({ user_id, title, body }) {
               >
                 <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
               </svg>
-              <h2 className="ml-2">{user_id}</h2>
+              <h2 className="ml-2">{name}</h2>
             </div>
             <div className="border-b-2 py-4">
               <p className="font-medium text-lg">{title}</p>

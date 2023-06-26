@@ -1,11 +1,11 @@
 "use client";
 import Card from "@/components/Card";
-import Navbar from "@/components/Navbar";
 import Title from "@/components/Title";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [posts, setPosts] = useState(undefined);
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetch("https://gorest.co.in/public/v2/posts", {
@@ -14,15 +14,36 @@ export default function Home() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setPosts(data);
+        fetchUsers(data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
   }, []);
 
-  if (posts === undefined) {
+  const fetchUsers = (data) => {
+    const userIds = data.map((post) => post.user_id);
+
+    Promise.all(
+      userIds.map((userId) =>
+        fetch(`https://gorest.co.in/public/v2/users/${userId}`, {
+          method: "GET",
+          redirect: "follow",
+        }).then((response) => {
+          return response.json();
+        })
+      )
+    )
+      .then((usersData) => {
+        setUsers(usersData);
+      })
+      .catch((error) => {
+        console.error("Error fetching users: ", error);
+      });
+  };
+
+  if (posts.length === 0 || users.length === 0) {
     return (
       <div className="h-screen text-xl flex justify-center items-center">
         Loading...
@@ -34,14 +55,27 @@ export default function Home() {
     <>
       <Title title="POSTS">
         {posts.map((post) => {
-          return (
-            <Card
-              key={post.id}
-              user_id={post.user_id}
-              title={post.title}
-              body={post.body}
-            />
-          );
+          const user = users.find((user) => user.id === post.user_id);
+          console.log(user);
+          if (user) {
+            return (
+              <Card
+                key={post.id}
+                name={user.name}
+                title={post.title}
+                body={post.body}
+              />
+            );
+          } else {
+            return (
+              <Card
+                key={post.id}
+                name="User Not Found"
+                title={post.title}
+                body={post.body}
+              />
+            );
+          }
         })}
       </Title>
     </>
