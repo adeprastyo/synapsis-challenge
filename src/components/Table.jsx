@@ -1,12 +1,16 @@
 import { useState } from "react";
 
-export default function Table({ users }) {
+export default function Table({ users, deleteUser }) {
   const [selectedUser, setSelectedUser] = useState(null);
   console.log(selectedUser);
 
   const handleEditClick = (index) => {
     setSelectedUser(users[index]);
     window.my_modal_4.showModal();
+  };
+
+  const handleDelete = (userId) => {
+    deleteUser(userId);
   };
 
   return (
@@ -132,7 +136,10 @@ export default function Table({ users }) {
                       Edit
                     </button>
 
-                    <button className="w-20 text-white bg-red-600 p-2 rounded-lg font-medium">
+                    <button
+                      onClick={() => handleDelete(data.id)}
+                      className="w-20 text-white bg-red-600 p-2 rounded-lg font-medium"
+                    >
                       Hapus
                     </button>
                   </div>

@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 
 export default function Users() {
   const [users, setUsers] = useState(undefined);
+  const [deleteMessage, setDeleteMessage] = useState(null);
+  const token =
+    "dd89a910a563b59582ad658f597b18247f33203ed5d306a67ad8ebd4ae839821";
 
   useEffect(() => {
     fetch("https://gorest.co.in/public/v2/users", {
@@ -28,10 +31,39 @@ export default function Users() {
       </div>
     );
   }
+
+  const deleteUser = (userId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (confirmed) {
+      fetch(`https://gorest.co.in/public/v2/users/${userId}`, {
+        method: "DELETE",
+        redirect: "follow",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            setDeleteMessage("User deleted successfully.");
+            const updatedUsers = users.filter((user) => user.id !== userId);
+            setUsers(updatedUsers);
+          } else {
+            throw new Error("Error deleting user.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting user:", error);
+        });
+    }
+  };
+
   return (
     <>
       <Title title="USERS">
-        <Table users={users} />
+        {deleteMessage && alert("Berhasil menghapus data user")}
+        <Table users={users} deleteUser={deleteUser} />
       </Title>
     </>
   );
